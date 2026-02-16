@@ -18,18 +18,32 @@ description: Read product requirements from Confluence via Atlassian MCP, then g
 5) Extract:
    - product goal
    - users/personas
+   - business metrics / success metrics (KPIs)
    - in-scope requirements
    - out-of-scope
    - non-functional requirements
    - dependencies
+   - assumptions and constraints
+   - risks
    - open questions / ambiguities
 6) Generate:
    - 3-8 epics
    - user stories under each epic (INVEST)
    - acceptance criteria for each story (Gherkin where useful)
    - rough estimates (T-shirt or story points)
-7) Create epics and stories in Jira under the provided project key by default.
-8) Propose a sprint plan:
+7) Identify story-to-story relationships before issue creation:
+   - mark "relates to" for cross-cutting dependencies, shared APIs/data contracts, common test requirements, and parallelizable stories that must stay aligned.
+   - apply these heuristics:
+     - UI/frontend story <-> API/backend story for the same user flow.
+     - Data model/migration story <-> reporting/QA validation story that verifies that data.
+     - Search/filter/sort stories in the same experience cluster.
+     - Integration contract story <-> integration implementation story.
+     - Accessibility/compliance story <-> template/page stories it governs.
+     - Release/UAT story <-> critical P1 journey stories included in sign-off scope.
+   - avoid linking stories that are only in the same epic but have no concrete shared behavior, contract, or risk.
+8) Create epics and stories in Jira under the provided project key by default.
+9) After stories are created, add Jira issue links of type "Relates" between relevant stories.
+10) Propose a sprint plan:
    - sprint goal
    - prioritized stories for Sprint 1
    - capacity assumptions + rationale
@@ -37,5 +51,6 @@ description: Read product requirements from Confluence via Atlassian MCP, then g
 
 ## Output Rules
 - Default output: Jira epics and stories created in the provided project.
+- Default linking behavior: add Jira "relates to" links between relevant stories.
 - If Jira project key is missing: ask for it before proceeding.
 - Only create `STORIES.md` and `SPRINT_PLAN.md` when the user explicitly asks for file output.
